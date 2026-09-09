@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Build for iOS Simulator
         run: |
@@ -40,7 +40,7 @@ jobs:
           xcrun simctl shutdown "$device_udid" || true
 
       - name: Upload preview screenshot
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ios-preview
           path: preview.png
