@@ -1,4 +1,4 @@
-name: Build iOS app
+name: 编译并预览 iOS 应用
 
 on:
   push:
@@ -10,10 +10,10 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Check out repository
+      - name: 检出代码
         uses: actions/checkout@v5
 
-      - name: Build for iOS Simulator
+      - name: 编译 iOS 模拟器应用
         run: |
           xcodebuild \
             -project HelloWorldApp.xcodeproj \
@@ -26,7 +26,7 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             build
 
-      - name: Run app and capture preview
+      - name: 运行应用并截取预览图
         run: |
           set -euo pipefail
           device_udid="$(xcrun simctl list devices available | awk -F '[()]' '/iPhone/ && /Shutdown|Booted/ {print $2; exit}')"
@@ -39,7 +39,7 @@ jobs:
           xcrun simctl io "$device_udid" screenshot preview.png
           xcrun simctl shutdown "$device_udid" || true
 
-      - name: Upload preview screenshot
+      - name: 上传预览截图
         uses: actions/upload-artifact@v5
         with:
           name: ios-preview
