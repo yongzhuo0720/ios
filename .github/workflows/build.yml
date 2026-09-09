@@ -14,12 +14,33 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build for iOS Simulator
-        run: >-
-          xcodebuild
-          -project HelloWorldApp.xcodeproj
-          -scheme HelloWorldApp
-          -sdk iphonesimulator
-          -destination 'generic/platform=iOS Simulator'
-          -configuration Debug
-          CODE_SIGNING_ALLOWED=NO
-          build
+        run: |
+          xcodebuild \
+            -project HelloWorldApp.xcodeproj \
+            -scheme HelloWorldApp \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            build
+
+      - name: Run app and capture preview
+        run: |
+          set -euo pipefail
+          device_udid="$(xcrun simctl list devices available | awk -F '[()]' '/iPhone/ && /Shutdown|Booted/ {print $2; exit}')"
+          test -n "$device_udid"
+          xcrun simctl boot "$device_udid" 2>/dev/null || true
+          xcrun simctl bootstatus "$device_udid" -b
+          xcrun simctl install "$device_udid" build/Build/Products/Debug-iphonesimulator/HelloWorldApp.app
+          xcrun simctl launch "$device_udid" com.example.HelloWorldApp
+          sleep 5
+          xcrun simctl io "$device_udid" screenshot preview.png
+          xcrun simctl shutdown "$device_udid" || true
+
+      - name: Upload preview screenshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-preview
+          path: preview.png
