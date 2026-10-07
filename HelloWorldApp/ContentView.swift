@@ -1,20 +1,20 @@
 import SwiftUI
 
 struct ContentView: View {
-    private let name = {
-        print("我是一个闭包")
-    }
-
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("我是一个闭包")
+            Text("Hello, world!")
+                .font(.largeTitle)
+                .underline()
+                .foregroundStyle(.red)
+                .bold()
+            Image(systemName: "globe")
+                .font(.largeTitle)
+                .foregroundStyle(.blue)
         }
         .font(.system(size: 30, design: .monospaced))
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .padding(40)
-        .onAppear {
-            name()
-        }
     }
 }
 
