@@ -1,39 +1,30 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var username = "卓永"
-    @State private var password = ""
-    @State private var message = ""
-
     var body: some View {
-        VStack(spacing: 28) {
-            HStack {
-                Text("用户名：")
-                TextField("请输入用户名", text: $username)
-                    .textFieldStyle(.roundedBorder)
-                    .frame(width: 220)
+        VStack(spacing: 14) {
+            Text("Hello")
+            Text("SwiftUI")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .bold()
+                .italic()
+                .foregroundStyle(.orange)
+                .shadow(color: .red, radius: 10, x: 0, y: 10)
+
+            Label("https://www.baidu.com", systemImage: "trash")
+                .font(.title)
+                .underline(true, color: .red)
+
+            HStack(spacing: 12) {
+                Text("Text")
+                Text("TextField").bold()
+                Text("SecureField").foregroundStyle(.pink)
             }
 
-            HStack {
-                Text("密码：")
-                SecureField("请输入密码", text: $password)
-                    .textFieldStyle(.roundedBorder)
-                    .frame(width: 220)
-            }
-
-            Button("登录") {
-                if username.isEmpty || password.isEmpty {
-                    message = "请输入用户名和密码！！"
-                } else {
-                    message = "用户名为\(username)，密码已输入"
-                }
-            }
-            .buttonStyle(.borderedProminent)
-
-            if !message.isEmpty {
-                Text(message)
-                    .foregroundStyle(.secondary)
-            }
+            Text(String(repeating: "this is SwiftUI examples.", count: 6))
+                .font(.title3)
+                .multilineTextAlignment(.leading)
         }
         .font(.system(size: 24))
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
