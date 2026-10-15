@@ -2,33 +2,36 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack(spacing: 14) {
-            Text("Hello")
-            Text("SwiftUI")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .bold()
-                .italic()
-                .foregroundStyle(.orange)
-                .shadow(color: .red, radius: 10, x: 0, y: 10)
+        ScrollView {
+            VStack(spacing: 8) {
+                Circle()
+                    .stroke(Color.red)
+                    .frame(width: 150, height: 150)
 
-            Label("https://www.baidu.com", systemImage: "trash")
-                .font(.title)
-                .underline(true, color: .red)
+                Ellipse()
+                    .trim(from: 0.2, to: 1.0)
+                    .stroke(Color.blue, lineWidth: 30)
+                    .frame(width: 250, height: 150)
 
-            HStack(spacing: 12) {
-                Text("Text")
-                Text("TextField").bold()
-                Text("SecureField").foregroundStyle(.pink)
+                Capsule()
+                    .stroke(.red, style: StrokeStyle(
+                        lineWidth: 30,
+                        lineCap: .round,
+                        dash: [30]
+                    ))
+                    .frame(width: 250, height: 150)
+
+                Rectangle()
+                    .fill(.yellow)
+                    .frame(width: 250, height: 150)
+
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(.green)
+                    .frame(width: 250, height: 150)
             }
-
-            Text(String(repeating: "this is SwiftUI examples.", count: 6))
-                .font(.title3)
-                .multilineTextAlignment(.leading)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 16)
         }
-        .font(.system(size: 24))
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        .padding(40)
     }
 }
 
