@@ -2,16 +2,23 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        MyColor()
+        MyFrame()
     }
 }
 
-struct MyColor: View {
+struct MyFrame: View {
     var body: some View {
-        RoundedRectangle(cornerRadius: 25)
-            .fill(Color.mint)
-            .frame(width: 300, height: 200)
-            .shadow(color: .red, radius: 20, x: -20, y: -20)
+        Text("This is Title")
+            .padding(.all, 20)
+            .background(Color.blue)
+            .frame(width: 200, height: 100, alignment: .top)
+            .background(Color.orange)
+            .frame(height: 150)
+            .background(Color.purple)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(.pink)
+            .frame(maxHeight: .infinity, alignment: .top)
+            .background(.indigo)
     }
 }
 
