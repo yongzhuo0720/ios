@@ -2,23 +2,38 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        MyFrame()
+        MyGradient()
     }
 }
 
-struct MyFrame: View {
+struct MyGradient: View {
     var body: some View {
-        Text("This is Title")
-            .padding(.all, 20)
-            .background(Color.blue)
-            .frame(width: 200, height: 100, alignment: .top)
-            .background(Color.orange)
-            .frame(height: 150)
-            .background(Color.purple)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(.pink)
-            .frame(maxHeight: .infinity, alignment: .top)
-            .background(.indigo)
+        VStack(spacing: 8) {
+            RoundedRectangle(cornerRadius: 25)
+                .fill(LinearGradient(
+                    gradient: Gradient(colors: [.red, .blue, .yellow, .green]),
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                ))
+                .frame(width: 300, height: 200)
+
+            RoundedRectangle(cornerRadius: 25)
+                .fill(RadialGradient(
+                    gradient: Gradient(colors: [.red, .green, .yellow]),
+                    center: .top,
+                    startRadius: 0,
+                    endRadius: 150
+                ))
+                .frame(width: 300, height: 200)
+
+            RoundedRectangle(cornerRadius: 25)
+                .fill(AngularGradient(
+                    gradient: Gradient(colors: [.yellow, .green, .blue, .yellow]),
+                    center: .center,
+                    angle: .degrees(-90)
+                ))
+                .frame(width: 300, height: 200)
+        }
     }
 }
 
