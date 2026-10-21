@@ -1,38 +1,49 @@
 import SwiftUI
 
+///姓名:卓永 学号:2315302858
+
 struct ContentView: View {
     var body: some View {
-        MyGradient()
+        MyImage()
     }
 }
 
-struct MyGradient: View {
+struct MyImage: View {
     var body: some View {
-        VStack(spacing: 8) {
-            RoundedRectangle(cornerRadius: 25)
-                .fill(LinearGradient(
-                    gradient: Gradient(colors: [.red, .blue, .yellow, .green]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                ))
-                .frame(width: 300, height: 200)
+        ScrollView {
+            VStack(spacing: 20) {
+                Image(systemName: "pencil")
+                    .font(.largeTitle)
 
-            RoundedRectangle(cornerRadius: 25)
-                .fill(RadialGradient(
-                    gradient: Gradient(colors: [.red, .green, .yellow]),
-                    center: .top,
-                    startRadius: 0,
-                    endRadius: 150
-                ))
-                .frame(width: 300, height: 200)
+                Image("cat")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200)
 
-            RoundedRectangle(cornerRadius: 25)
-                .fill(AngularGradient(
-                    gradient: Gradient(colors: [.yellow, .green, .blue, .yellow]),
-                    center: .center,
-                    angle: .degrees(-90)
-                ))
+                Image("ICON")
+                    .renderingMode(.template)
+                    .foregroundStyle(.blue)
+                    .clipShape(Circle())
+
+                AsyncImage(url: URL(string: "https://picsum.photos/id/237/300/200")) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image.resizable().scaledToFill()
+                    case .failure:
+                        Image(systemName: "photo")
+                            .font(.largeTitle)
+                            .foregroundStyle(.secondary)
+                    case .empty:
+                        ProgressView()
+                    @unknown default:
+                        EmptyView()
+                    }
+                }
                 .frame(width: 300, height: 200)
+                .clipShape(RoundedRectangle(cornerRadius: 25))
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 20)
         }
     }
 }
