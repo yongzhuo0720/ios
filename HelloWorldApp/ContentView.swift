@@ -4,37 +4,48 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        MyPicker()
+        MySlider()
     }
 }
 
-struct MyPicker: View {
-    @State private var select = 1
+struct MySlider: View {
+    @State private var value1: Double = 6.0
+    @State private var value2: CGFloat = 120.0
+    @State private var value3 = false
+
+    private func increase(n: CGFloat) {
+        withAnimation(.easeInOut) {
+            if value3 {
+                value2 = min(max(value2 + n, 40), 300)
+            }
+        }
+    }
 
     var body: some View {
-        VStack(spacing: 35) {
-            Text("年龄: \(select)")
-                .font(.title)
+        VStack(spacing: 28) {
+            Text("当前 value1:\(value1, specifier: "%.6f")")
 
-            Picker("年龄", selection: $select) {
-                ForEach(1..<5) { number in
-                    Text("\(number)").tag(number)
-                }
-                Image(systemName: "heart.fill")
-                    .accessibilityLabel("5")
-                    .tag(5)
-            }
-            .pickerStyle(.segmented)
+            Slider(value: $value1, in: 0...10)
+                .accessibilityLabel("value1")
 
-            Picker("年龄", selection: $select) {
-                ForEach(1..<6) { number in
-                    Text("\(number)").tag(number)
-                }
+            Stepper("Stepper1:\(value1, specifier: "%.6f")", value: $value1, in: 0...10)
+
+            Stepper {
+                Text("Stepper2:\(Double(value2), specifier: "%.6f")")
+            } onIncrement: {
+                increase(n: 10)
+            } onDecrement: {
+                increase(n: -10)
             }
-            .pickerStyle(.wheel)
-            .frame(height: 200)
+
+            Toggle("是否可控", isOn: $value3)
+
+            RoundedRectangle(cornerRadius: 25)
+                .fill(.orange)
+                .frame(width: value2, height: 80)
         }
-        .padding()
+        .tint(.green)
+        .padding(32)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
