@@ -4,72 +4,38 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        MyButton()
+        MyDatePicker()
     }
 }
 
-struct MyButton: View {
-    @State private var title = "hello iOS"
-    @State private var likes = 5
+struct MyDatePicker: View {
+    @State private var selectedDate = Date()
+    @State private var bkColor: Color = .green
+
+    private let start = Calendar.current.date(from: DateComponents(year: 2018)) ?? Date()
+    private let end = Date()
 
     var body: some View {
-        VStack(spacing: 30) {
-            Text(title)
-                .font(.title)
-                .bold()
-                .padding(.bottom, 8)
+        ScrollView {
+            VStack(spacing: 24) {
+                DatePicker(
+                    "请选择日期：",
+                    selection: $selectedDate,
+                    in: start...end,
+                    displayedComponents: .date
+                )
+                .datePickerStyle(.graphical)
+                .tint(bkColor)
 
-            Button("按钮1") {
-                title = "按钮1被按下"
+                ColorPicker("请选择颜色：", selection: $bkColor)
+
+                RoundedRectangle(cornerRadius: 25)
+                    .fill(bkColor)
+                    .frame(maxWidth: 300)
+                    .frame(height: 200)
             }
-            .font(.headline)
-            .tint(.brown)
-
-            Button {
-                title = "按钮2被按下"
-            } label: {
-                HStack {
-                Image(systemName: "pencil")
-                        .foregroundStyle(.brown)
-                    Text("按钮2")
-                        .font(.headline)
-                        .foregroundStyle(.white)
-                        .padding()
-                        .background(.blue, in: RoundedRectangle(cornerRadius: 12))
-                }
-            }
-
-            VStack(spacing: 4) {
-                Link("打开百度", destination: URL(string: "https://www.baidu.com")!)
-                    .font(.headline)
-                    .foregroundStyle(.brown)
-
-                Button {
-                    likes += 1
-                } label: {
-                    Image(systemName: "heart.fill")
-                        .font(.system(size: 44))
-                        .foregroundStyle(.white)
-                        .frame(width: 100, height: 100)
-                        .background(
-                            LinearGradient(colors: [.red, .blue], startPoint: .topLeading, endPoint: .bottomTrailing),
-                            in: Circle()
-                        )
-                        .overlay(alignment: .bottomTrailing) {
-                            Text("\(likes)")
-                                .font(.caption)
-                                .foregroundStyle(.white)
-                                .padding(22)
-                        }
-                        .shadow(color: .black.opacity(0.6), radius: 10)
-                }
-                .accessibilityLabel("点赞")
-                .accessibilityValue("\(likes)")
-            }
-            Spacer()
+            .padding()
         }
-        .padding(.top, 30)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
